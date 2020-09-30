@@ -1,17 +1,33 @@
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
 
-export default function App() {
+import TaskItem from './src/components/TaskItem';
+import TaskInput from './src/components/TaskInput';
+
+const App = () => {
+  const [taskList, setTaskList] = useState([]);
+
+  const addTaskHandler = () => {
+    setTaskList(taskList => [...taskList, { key: Math.random().toString(), value: task }]);
+    setTask('');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.taskContainer}>
-        <TextInput placeholder='Input task' style={styles.textInput} />
-        <Button title='ADD' style={styles.button} />
+        <TaskInput />
+        <Button title='ADD' style={styles.button} onPress={addTaskHandler} />
       </View>
-      <View></View>
+      <FlatList
+        data={taskList}
+        renderItem={({ item: { value } }) => <TaskItem value={value} />}
+        // FlatList should have a specific data concept, each item should be an object with {key:num, value/item: actual item}
+      />
     </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -21,12 +37,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  textInput: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    padding: 20,
-    width: '80%',
   },
   button: {
     width: '20%',

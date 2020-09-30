@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
-const TaskInput = () => {
+const TaskInput = ({ addTask }) => {
   const [task, setTask] = useState('');
 
   const taskListInputHandler = text => {
@@ -9,16 +9,17 @@ const TaskInput = () => {
   };
 
   return (
-    <TextInput
-      placeholder='Input task'
-      style={styles.input}
-      onChangeText={taskListInputHandler}
-      value={task}
-    />
+    <View style={styles.taskContainer}>
+      <TextInput
+        placeholder='Input task'
+        style={styles.input}
+        onChangeText={taskListInputHandler}
+        value={task}
+      />
+      <Button title='ADD' style={styles.button} onPress={() => addTask(task, setTask)} />
+    </View>
   );
 };
-
-export default TaskInput;
 
 const styles = StyleSheet.create({
   input: {
@@ -27,4 +28,14 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '80%',
   },
+  taskContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  button: {
+    width: '20%',
+  },
 });
+
+export default TaskInput;
